@@ -1,4 +1,5 @@
 import { useTheme } from "../context/ThemeContext";
+import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 
 export default function Navbar() {
     const { isDarkMode, toggleDarkMode } = useTheme();
@@ -9,9 +10,19 @@ export default function Navbar() {
 
             <button
                 onClick={toggleDarkMode}
-                className="rounded-lg bg-gray-200 px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition-colors duration-200"
+                className="flex items-center gap-2 rounded-lg bg-gray-200 px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition-colors duration-200"
             >
-                {isDarkMode ? "☀️ Light" : "🌙 Dark"}
+                {isDarkMode ? (
+                    <>
+                        <SunIcon className="h-5 w-5" />
+                        <span>Light</span>
+                    </>
+                ) : (
+                    <>
+                        <MoonIcon className="h-5 w-5" />
+                        <span>Dark</span>
+                    </>
+                )}
             </button>
         </header>
     );

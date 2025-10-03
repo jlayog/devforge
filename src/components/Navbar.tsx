@@ -1,58 +1,18 @@
-import React from 'react';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from "../context/ThemeContext";
 
-const Navbar: React.FC = () => {
+export default function Navbar() {
     const { isDarkMode, toggleDarkMode } = useTheme();
 
     return (
-        <nav className="bg-white dark:bg-gray-800 shadow-lg">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                    <div className="flex items-center">
-                        <div className="flex-shrink-0">
-                            <span className="text-xl font-bold text-gray-900 dark:text-white">
-                                DevForge
-                            </span>
-                        </div>
-                    </div>
+        <header className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 transition-colors duration-300">
+            <h1 className="text-xl font-semibold tracking-tight">DevForge</h1>
 
-                    <div className="flex items-center space-x-8">
-                        <a
-                            href="#home"
-                            className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                        >
-                            Home
-                        </a>
-                        <a
-                            href="#about"
-                            className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                        >
-                            About
-                        </a>
-                        <a
-                            href="#contact"
-                            className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                        >
-                            Contact
-                        </a>
-
-                        <button
-                            onClick={toggleDarkMode}
-                            className="p-2 rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                            aria-label="Toggle dark mode"
-                        >
-                            {isDarkMode ? (
-                                <SunIcon className="h-5 w-5" />
-                            ) : (
-                                <MoonIcon className="h-5 w-5" />
-                            )}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
+            <button
+                onClick={toggleDarkMode}
+                className="rounded-lg bg-gray-200 px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition-colors duration-200"
+            >
+                {isDarkMode ? "☀️ Light" : "🌙 Dark"}
+            </button>
+        </header>
     );
-};
-
-export default Navbar;
+}

@@ -1,8 +1,4 @@
-import React from 'react'
-
-type Props = {}
-
-function JsonFormatter({ }: Props) {
+export default function JsonFormatter() {
     return (
         <div>
             <div className='grid grid-cols-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6'>
@@ -15,5 +11,3 @@ function JsonFormatter({ }: Props) {
         </div>
     )
 }
-
-export default JsonFormatter

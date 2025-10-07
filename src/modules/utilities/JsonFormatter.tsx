@@ -41,18 +41,9 @@ export default function JsonFormatter({
 
   return (
     <div>
-     <div className="flex items-center justify-between">
       <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
         Formatted output
       </h4>
-      <button
-        type="button"
-        onClick={copyToClipboard}
-        className="px-3 py-1.5 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-      >
-        {copied ? "Copied!" : "Copy"}
-      </button>
-      </div>
       <div
         className='mt-1 w-full rounded-md border border-gray-200 bg-gray-100 p-3 shadow-sm font-mono text-sm text-gray-900
            dark:border-gray-700 dark:bg-gray-900  dark:text-gray-100 hover:shadow-md focus:outline-indigo-600"'
@@ -60,6 +51,15 @@ export default function JsonFormatter({
         <pre className="">
           <code className="language-json">{formatted}</code>
         </pre>
+      </div>
+      <div className="mt-4 flex justify-end">
+        <button
+          type="button"
+          onClick={copyToClipboard}
+          className="px-3 py-1.5 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          {copied ? "Copied!" : "Copy"}
+        </button>
       </div>
     </div>
   );

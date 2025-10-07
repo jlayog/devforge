@@ -32,6 +32,7 @@ export default function JsonFormatterTool() {
       </div>
 
       <JsonFormatter value={input} indent={2} />
+      
     </div>
   );
 }

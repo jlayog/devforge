@@ -1,3 +1,5 @@
+import JsonFormatterTool from "../components/JsonFormatterTool";
+
 export default function Utilities() {
     return (
         <div className="space-y-6">
@@ -15,6 +17,9 @@ export default function Utilities() {
                     Utility tools will be implemented here.
                 </p>
             </div>
+
+            <JsonFormatterTool />
+
         </div>
     )
 }

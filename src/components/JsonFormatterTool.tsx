@@ -9,7 +9,7 @@ export default function JsonFormatterTool() {
       className="max-w-3xl mx-auto space-y-4 p-4
     rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md dark:border-gray-700 dark:bg-gray-800 transition-all duration-300"
     >
-      <div className="">
+      <div>
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
           JSON Formatter
         </h3>

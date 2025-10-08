@@ -1,25 +1,35 @@
-import { useState } from "react";
-import loremData from "../assets/loremData.json";
+import React, { useState } from "react";
+import loremDataJson from "../assets/loremData.json";
 
-function takeRepeated(arr, n) {
+type Unit = "words" | "sentences" | "paragraphs";
+
+interface LoremData {
+  words: string[];
+  sentences: string[];
+  paragraphs: string[];
+}
+
+const defaultData = loremDataJson as LoremData;
+
+function takeRepeated<T>(arr: T[], n: number): T[] {
   if (!Array.isArray(arr) || arr.length === 0) return [];
-  const out = [];
+  const out: T[] = [];
   for (let i = 0; i < n; i++) out.push(arr[i % arr.length]);
   return out;
 }
 
-function ensurePeriod(str) {
-  return /[.!?]$/.test(str.trim()) ? str.trim() : str.trim() + ".";
+function ensurePeriod(str: string): string {
+  const trimmed = str.trim();
+  return /[.!?]$/.test(trimmed) ? trimmed : `${trimmed}.`;
 }
 
-function capitalizeFirst(str) {
+function capitalizeFirst(str: string): string {
   if (!str) return str;
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function makeOutputParagraphs(count, unit, data) {
-  const d = data || loremData;
-
+function makeOutputParagraphs(count: number, unit: Unit, data?: LoremData): string[] {
+  const d = data || defaultData;
   if (unit === "words") {
     const words = takeRepeated(d.words, count);
     if (words.length === 0) return [""];
@@ -27,28 +37,30 @@ function makeOutputParagraphs(count, unit, data) {
     const paragraph = ensurePeriod([first, ...words.slice(1)].join(" "));
     return [paragraph];
   }
-
   if (unit === "sentences") {
-    const sentences = takeRepeated(d.sentences, count).map(ensurePeriod);
+    const sentences = takeRepeated(d.sentences, count);
     if (sentences.length === 0) return [""];
     return [sentences.join(" ")];
   }
-
-  const paragraphs = takeRepeated(d.paragraphs, count).map((p) =>
-    ensurePeriod(p)
-  );
+  const paragraphs = takeRepeated(d.paragraphs, count);
   return paragraphs.length ? paragraphs : [""];
 }
 
-export default function LoremIpsumTool({ data = loremData }) {
-  const [count, setCount] = useState(3);
-  const [unit, setUnit] = useState("paragraphs"); // 'words' | 'sentences' | 'paragraphs'
-  const [output, setOutput] = useState(() =>
-    makeOutputParagraphs(3, "paragraphs", data)
-  );
-  const [copied, setCopied] = useState(false);
+interface LoremIpsumToolProps {
+  data?: LoremData;
+}
 
-  function handleGenerate(e) {
+export default function LoremIpsumTool({ data = defaultData }: LoremIpsumToolProps) {
+  const [count, setCount] = useState<number>(3);
+  const [unit, setUnit] = useState<Unit>("paragraphs");
+  const [output, setOutput] = useState<string[]>(
+    () => makeOutputParagraphs(3, "paragraphs", data)
+  );
+  const [copied, setCopied] = useState<boolean>(false);
+
+  function handleGenerate(
+    e?: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+  ) {
     e?.preventDefault?.();
     const n = Number(count);
     const safe = Number.isFinite(n) && n > 0 ? Math.min(Math.floor(n), 200) : 1;
@@ -62,7 +74,6 @@ export default function LoremIpsumTool({ data = loremData }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch {
-      // Fallback for older browsers
       const ta = document.createElement("textarea");
       ta.value = text;
       ta.style.position = "fixed";
@@ -84,15 +95,11 @@ export default function LoremIpsumTool({ data = loremData }) {
       className="max-w-3xl mx-auto space-y-4 p-4
     rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md dark:border-gray-700 dark:bg-gray-800 transition-all duration-300"
     >
-      <div className="">
+      <div>
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
           Lorem Ipsum Generator
         </h3>
-
-        <form
-          onSubmit={handleGenerate}
-          className="flex flex-wrap items-end gap-4"
-        >
+        <form onSubmit={handleGenerate} className="flex flex-wrap items-end gap-4">
           <label className="flex flex-col text-sm font-medium text-gray-600 dark:text-gray-400">
             Amount
             <input
@@ -100,17 +107,20 @@ export default function LoremIpsumTool({ data = loremData }) {
               min={1}
               max={200}
               value={count}
-              onChange={(e) => setCount(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setCount(Number(e.target.value))
+              }
               className="mt-1 w-20 rounded-md border border-gray-200 bg-gray-100 p-3 shadow-sm text-sm text-gray-900
            dark:border-gray-700 dark:bg-gray-900  dark:text-gray-100 hover:shadow-md  focus:outline-none focus:ring-2 focus:ring-indigo-600"
             />
           </label>
-
           <label className="flex flex-col text-sm font-medium text-gray-600 dark:text-gray-400">
             Type
             <select
               value={unit}
-              onChange={(e) => setUnit(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setUnit(e.target.value as Unit)
+              }
               className="mt-1 rounded-md border border-gray-200 bg-gray-100 p-3 shadow-sm text-sm text-gray-900
            dark:border-gray-700 dark:bg-gray-900  dark:text-gray-100 hover:shadow-md  focus:outline-none focus:ring-2 focus:ring-indigo-600"
             >
@@ -119,7 +129,6 @@ export default function LoremIpsumTool({ data = loremData }) {
               <option value="paragraphs">Paragraphs</option>
             </select>
           </label>
-
           <div className="flex items-center">
             <button
               type="submit"
@@ -129,7 +138,6 @@ export default function LoremIpsumTool({ data = loremData }) {
               Generate
             </button>
           </div>
-
           <div className="flex items-center ml-auto">
             <button
               type="button"
@@ -156,7 +164,6 @@ export default function LoremIpsumTool({ data = loremData }) {
             </button>
           </div>
         </form>
-
         <div className="mt-6 space-y-4 leading-relaxed">
           {output.map((para, idx) => (
             <p key={idx} className="m-0 whitespace-pre-wrap">

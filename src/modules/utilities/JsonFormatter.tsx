@@ -56,7 +56,7 @@ export default function JsonFormatter({
         <button
           type="button"
           onClick={copyToClipboard}
-          className="px-3 py-1.5 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="px-3 py-1.5 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-indigo-500"
         >
           {copied ? "Copied!" : "Copy "}
           {!copied && (

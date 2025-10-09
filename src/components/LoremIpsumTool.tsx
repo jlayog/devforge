@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import loremDataJson from "../assets/loremData.json";
 
-type Unit = "words" | "sentences" | "paragraphs";
-
 interface LoremData {
   words: string[];
   sentences: string[];
@@ -28,7 +26,11 @@ function capitalizeFirst(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function makeOutputParagraphs(count: number, unit: Unit, data?: LoremData): string[] {
+function makeOutputParagraphs(
+  count: number,
+  unit: string,
+  data?: LoremData
+): string[] {
   const d = data || defaultData;
   if (unit === "words") {
     const words = takeRepeated(d.words, count);
@@ -46,15 +48,17 @@ function makeOutputParagraphs(count: number, unit: Unit, data?: LoremData): stri
   return paragraphs.length ? paragraphs : [""];
 }
 
-interface LoremIpsumToolProps {
+type LoremIpsumToolProps = {
   data?: LoremData;
 }
 
-export default function LoremIpsumTool({ data = defaultData }: LoremIpsumToolProps) {
+export default function LoremIpsumTool({
+  data = defaultData,
+}: LoremIpsumToolProps) {
   const [count, setCount] = useState<number>(3);
-  const [unit, setUnit] = useState<Unit>("paragraphs");
-  const [output, setOutput] = useState<string[]>(
-    () => makeOutputParagraphs(3, "paragraphs", data)
+  const [unit, setUnit] = useState<string>("paragraphs");
+  const [output, setOutput] = useState<string[]>(() =>
+    makeOutputParagraphs(3, "paragraphs", data)
   );
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -99,7 +103,10 @@ export default function LoremIpsumTool({ data = defaultData }: LoremIpsumToolPro
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
           Lorem Ipsum Generator
         </h3>
-        <form onSubmit={handleGenerate} className="flex flex-wrap items-end gap-4">
+        <form
+          onSubmit={handleGenerate}
+          className="flex flex-wrap items-end gap-4"
+        >
           <label className="flex flex-col text-sm font-medium text-gray-600 dark:text-gray-400">
             Amount
             <input
@@ -119,7 +126,7 @@ export default function LoremIpsumTool({ data = defaultData }: LoremIpsumToolPro
             <select
               value={unit}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                setUnit(e.target.value as Unit)
+                setUnit(e.target.value as string)
               }
               className="mt-1 rounded-md border border-gray-200 bg-gray-100 p-3 shadow-sm text-sm text-gray-900
            dark:border-gray-700 dark:bg-gray-900  dark:text-gray-100 hover:shadow-md  focus:outline-none focus:ring-2 focus:ring-indigo-600"

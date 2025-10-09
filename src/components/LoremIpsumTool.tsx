@@ -50,7 +50,7 @@ function makeOutputParagraphs(
 
 type LoremIpsumToolProps = {
   data?: LoremData;
-}
+};
 
 export default function LoremIpsumTool({
   data = defaultData,
@@ -107,9 +107,15 @@ export default function LoremIpsumTool({
           onSubmit={handleGenerate}
           className="flex flex-wrap items-end gap-4"
         >
-          <label className="flex flex-col text-sm font-medium text-gray-600 dark:text-gray-400">
-            Amount
+          <div className="flex flex-col">
+            <label
+              htmlFor="lorem-amount-input"
+              className="mt-1 mb-1 text-sm font-medium text-gray-600 dark:text-gray-400"
+            >
+              Amount
+            </label>
             <input
+              id="lorem-amount-input"
               type="number"
               min={1}
               max={200}
@@ -120,10 +126,16 @@ export default function LoremIpsumTool({
               className="mt-1 w-20 rounded-md border border-gray-200 bg-gray-100 p-3 shadow-sm text-sm text-gray-900
            dark:border-gray-700 dark:bg-gray-900  dark:text-gray-100 hover:shadow-md  focus:outline-none focus:ring-2 focus:ring-indigo-600"
             />
-          </label>
-          <label className="flex flex-col text-sm font-medium text-gray-600 dark:text-gray-400">
-            Type
+          </div>
+          <div className="flex flex-col">
+            <label
+              htmlFor="lorem-type-select"
+              className="mt-1 mb-1 flex flex-col text-sm font-medium text-gray-600 dark:text-gray-400"
+            >
+              Type
+            </label>
             <select
+              id="lorem-type-select"
               value={unit}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 setUnit(e.target.value as string)
@@ -135,7 +147,8 @@ export default function LoremIpsumTool({
               <option value="sentences">Sentences</option>
               <option value="paragraphs">Paragraphs</option>
             </select>
-          </label>
+          </div>
+
           <div className="flex items-center">
             <button
               type="submit"

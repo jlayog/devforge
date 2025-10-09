@@ -1,4 +1,6 @@
 import JsonFormatterTool from "../components/JsonFormatterTool";
+import LoremIpsumTool from "../components/LoremIpsumTool";
+import loremData from "../assets/loremData.json";
 
 export default function Utilities() {
     return (
@@ -19,6 +21,8 @@ export default function Utilities() {
             </div>
 
             <JsonFormatterTool />
+
+            <LoremIpsumTool data={loremData} />
 
         </div>
     )

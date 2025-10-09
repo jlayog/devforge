@@ -35,7 +35,20 @@ export default function JsonFormatter({
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch {
-      console.error("Clipboard write failed");
+      // Fallback for older browsers
+      const ta = document.createElement("textarea");
+      ta.value = formatted;
+      ta.style.position = "fixed";
+      ta.style.top = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      } finally {
+        document.body.removeChild(ta);
+      }
     }
   };
 

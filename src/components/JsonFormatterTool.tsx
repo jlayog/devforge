@@ -16,7 +16,7 @@ export default function JsonFormatterTool() {
 
         <label
           htmlFor="json-input"
-          className="block mt-1 text-sm font-medium text-gray-600 dark:text-gray-400"
+          className="block mt-1 mb-1 text-sm font-medium text-gray-600 dark:text-gray-400"
         >
           Input (JSON or plain text)
         </label>
